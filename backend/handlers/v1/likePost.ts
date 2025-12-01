@@ -1,7 +1,7 @@
-import { connectDb, Post, Like } from "../../utils/mongo";
+import { connectDb, Post, Like } from "../../db/mongo";
 import { checkClaims } from "../../utils/auth";
 import { success, notFound } from "../../utils/response";
-import { withErrorHandler } from "../../utils/errorHandler";
+import { withErrorHandler } from "../../middlewares/errorHandler";
 
 export const handler = withErrorHandler(async (event) => {
   const userId = checkClaims(event);

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { DatabaseName } from "./config";
+import { DatabaseName } from "../utils/config";
 
 let isConnected = false;
 
@@ -18,4 +18,4 @@ export async function connectDb() {
 }
 
 // Re-export models for convenience
-export { Post, Like, User } from "../models";
+export { Post, Like, User } from "./models";

@@ -1,6 +1,6 @@
 import { checkClaims } from "../../utils/auth";
 import { success, badRequest } from "../../utils/response";
-import { withErrorHandler } from "../../utils/errorHandler";
+import { withErrorHandler } from "../../middlewares/errorHandler";
 import { completeMultipartUpload, verifySecurityToken } from "../../utils/s3";
 
 interface CompleteUploadBody {

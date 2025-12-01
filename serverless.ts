@@ -3,7 +3,11 @@ import type { AWS } from "@serverless/typescript";
 const serverlessConfiguration: AWS = {
   service: "upscrolled-lite",
   frameworkVersion: "3",
-  plugins: ["serverless-esbuild", "serverless-offline"],
+  plugins: [
+    "serverless-esbuild",
+    "serverless-offline",
+    "serverless-apigateway-route-settings",
+  ],
 
   provider: {
     name: "aws",
@@ -14,6 +18,7 @@ const serverlessConfiguration: AWS = {
     environment: {
       STAGE: "${self:provider.stage}",
       MONGODB_URI: "${env:MONGODB_URI}",
+      REDIS_URL: "${env:REDIS_URL}",
       POSTS_COLLECTION: "posts",
       USERS_COLLECTION: "users",
       STORAGE_BUCKET_NAME: "upscrolled-lite-storage-${self:provider.stage}",
@@ -150,6 +155,11 @@ const serverlessConfiguration: AWS = {
       platform: "node",
       concurrency: 10,
       external: [],
+    },
+    routeSettings: {
+      burstLimit: 200,
+      rateLimit: 400,
+      detailedMetricsEnabled: true,
     },
   },
 

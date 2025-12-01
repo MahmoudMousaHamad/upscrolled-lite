@@ -3,7 +3,7 @@ import {
   APIGatewayProxyEvent,
   Context,
 } from "aws-lambda";
-import { unauthorized, badRequest, error } from "./response";
+import { unauthorized, badRequest, error } from "../utils/response";
 
 type HandlerFn = (
   event: APIGatewayProxyEvent,
