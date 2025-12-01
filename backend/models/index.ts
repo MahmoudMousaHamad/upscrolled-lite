@@ -7,6 +7,11 @@ export interface IPost extends Document {
   content: string;
   createdAt: Date;
   updatedAt: Date;
+  media?: {
+    fileId: string;
+    key: string;
+    type: "image" | "video";
+  };
 }
 
 const postSchema = new Schema<IPost>(

@@ -18,12 +18,10 @@ export const handler = withErrorHandler(async (event) => {
 
   const { title, content, mediaFileId, mediaKey, mediaType } = body;
 
-  // Validate required fields
   if (!title || !content) {
     return badRequest("Title and content are required");
   }
 
-  // Validate media fields - if one is provided, all must be provided
   if (
     (mediaFileId || mediaKey || mediaType) &&
     (!mediaFileId || !mediaKey || !mediaType)
@@ -50,7 +48,6 @@ export const handler = withErrorHandler(async (event) => {
     content,
   };
 
-  // Add media if provided
   if (mediaFileId && mediaKey && mediaType) {
     postData.media = {
       fileId: mediaFileId,
