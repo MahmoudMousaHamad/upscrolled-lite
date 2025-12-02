@@ -27,3 +27,11 @@ export const badRequest = (message = "Bad Request"): APIGatewayProxyResult =>
 
 export const notFound = (message = "Not Found"): APIGatewayProxyResult =>
   error(message, 404);
+
+export const tooManyRequests = (
+  retryAfter?: number
+): APIGatewayProxyResult => ({
+  statusCode: 429,
+  headers: retryAfter ? { "Retry-After": String(retryAfter) } : undefined,
+  body: JSON.stringify({ message: "Too many requests. Please slow down." }),
+});

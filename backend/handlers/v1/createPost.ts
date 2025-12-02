@@ -1,8 +1,12 @@
-import { connectDb, Post } from "../../utils/mongo";
+import { connectDb, Post } from "../../db/mongo";
 import { checkClaims } from "../../utils/auth";
 import { created, badRequest } from "../../utils/response";
-import { withErrorHandler } from "../../utils/errorHandler";
+import { withErrorHandler } from "../../middlewares/errorHandler";
 import { publishNewPostEvent } from "../../utils/events";
+import {
+  withRateLimit,
+  RateLimitConfigs,
+} from "../../middlewares/rateLimitMiddleware";
 
 interface CreatePostBody {
   title: string;
@@ -12,7 +16,7 @@ interface CreatePostBody {
   mediaType?: "image" | "video";
 }
 
-export const handler = withErrorHandler(async (event) => {
+const createPostHandler = withErrorHandler(async (event) => {
   const userId = checkClaims(event);
   const body: CreatePostBody = JSON.parse(event.body || "{}");
 
@@ -67,3 +71,9 @@ export const handler = withErrorHandler(async (event) => {
     ...(postData.media && { media: postData.media }),
   });
 }, "Failed to create post");
+
+// Apply rate limiting: 20 requests per minute for write operations
+export const handler = withRateLimit(createPostHandler, {
+  config: RateLimitConfigs.write,
+  identifyBy: "user",
+});
